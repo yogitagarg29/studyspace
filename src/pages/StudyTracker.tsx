@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Clock, GraduationCap, Plus, Trash2, X } from 'lucide-react';
-import { SUBJECTS } from '@/types';
+import { subjectColor } from '@/types';
+import { SubjectPicker } from '@/components/SubjectPicker';
 import type { StudySpace } from '@/hooks/useStudySpace';
 import { useDerived } from '@/utils/stats';
 import { formatShortDate, todayISO } from '@/utils/date';
@@ -12,7 +13,7 @@ interface StudyTrackerProps {
 export function StudyTracker({ data }: StudyTrackerProps) {
   const d = useDerived(data.tasks, data.sessions);
   const [showForm, setShowForm] = useState(false);
-  const [subject, setSubject] = useState(SUBJECTS[0]);
+  const [subject, setSubject] = useState('Mathematics');
   const [hours, setHours] = useState('');
   const [date, setDate] = useState(todayISO());
   const [error, setError] = useState('');
@@ -109,7 +110,7 @@ export function StudyTracker({ data }: StudyTrackerProps) {
                   </div>
                   <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-sky-500"
+                      className={`h-full rounded-full bg-gradient-to-r ${subjectColor(s)}`}
                       style={{
                         width: `${(h / maxHours) * 100}%`,
                         transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -178,17 +179,8 @@ export function StudyTracker({ data }: StudyTrackerProps) {
 
             <form onSubmit={submit} className="mt-4 space-y-4" noValidate>
               <div>
-                <label htmlFor="session-subject" className="label">Subject</label>
-                <select
-                  id="session-subject"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  className="input"
-                >
-                  {SUBJECTS.map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
-                </select>
+                <label className="label">Subject</label>
+                <SubjectPicker value={subject} onChange={setSubject} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -204,7 +196,6 @@ export function StudyTracker({ data }: StudyTrackerProps) {
                     onChange={(e) => setHours(e.target.value)}
                     placeholder="e.g. 1.5"
                     className="input"
-                    autoFocus
                   />
                 </div>
                 <div>

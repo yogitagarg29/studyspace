@@ -1,7 +1,7 @@
 import { CalendarCheck, Clock, Flame, TrendingUp } from 'lucide-react';
 import type { StudySpace } from '@/hooks/useStudySpace';
 import { useDerived } from '@/utils/stats';
-import { SUBJECTS } from '@/types';
+import { subjectColor } from '@/types';
 
 interface AnalyticsProps {
   data: StudySpace;
@@ -31,11 +31,9 @@ export function Analytics({ data }: AnalyticsProps) {
   const subjectShare = (() => {
     const totals = new Map<string, number>();
     for (const s of data.sessions) totals.set(s.subject, (totals.get(s.subject) ?? 0) + s.hours);
-    const weekIsos = new Set(d.weekHours.map((_, i) => i)); // index unused; use subjects overall
-    void weekIsos;
-    return SUBJECTS.map((subject) => ({ subject, hours: totals.get(subject) ?? 0 })).filter(
-      (s) => s.hours > 0,
-    );
+    return [...totals.entries()]
+      .map(([subject, hours]) => ({ subject, hours }))
+      .filter((s) => s.hours > 0);
   })();
   const maxSubject = Math.max(...subjectShare.map((s) => s.hours), 1);
 
@@ -179,7 +177,7 @@ export function Analytics({ data }: AnalyticsProps) {
                     </div>
                     <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-sky-500"
+                        className={`h-full rounded-full bg-gradient-to-r ${subjectColor(subject)}`}
                         style={{ width: `${(hours / maxSubject) * 100}%` }}
                       />
                     </div>

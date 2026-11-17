@@ -57,7 +57,9 @@ export function Sidebar({ page, onNavigate, mobileOpen, onCloseMobile }: Sidebar
         <GraduationCap size={20} className="text-white" strokeWidth={2.2} />
       </div>
       <div>
-        <p className="text-base font-extrabold tracking-tight text-white">STUDYSPACE</p>
+        <p className="font-display text-base font-extrabold tracking-tight text-white transition-colors duration-200">
+          STUDY<span className="text-indigo-400">SPACE</span>
+        </p>
         <p className="text-[11px] font-medium text-slate-400">Productivity Dashboard</p>
       </div>
     </div>

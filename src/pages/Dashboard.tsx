@@ -21,7 +21,9 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="page-title">Welcome back, {data.settings.name}!</h1>
+        <h1 className="page-title">
+          Welcome back, <span className="bg-gradient-to-r from-indigo-600 to-sky-500 bg-clip-text text-transparent">{data.settings.name}</span>!
+        </h1>
         <p className="page-subtitle">{formatLongDate(todayISO())}</p>
       </header>
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle2, Circle, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
-import { PRIORITIES, SUBJECTS, type Priority, type Task } from '@/types';
+import { PRIORITIES, type Priority, type Task } from '@/types';
+import { SubjectPicker } from '@/components/SubjectPicker';
 import type { StudySpace } from '@/hooks/useStudySpace';
 import { formatDueLabel, isOverdue, todayISO } from '@/utils/date';
 
@@ -17,7 +18,7 @@ interface FormState {
 
 type Filter = 'all' | 'pending' | 'completed';
 
-const EMPTY_FORM: FormState = { title: '', subject: SUBJECTS[0], priority: 'Medium', dueDate: todayISO() };
+const EMPTY_FORM: FormState = { title: '', subject: 'Mathematics', priority: 'Medium', dueDate: todayISO() };
 
 export function Tasks({ data }: TasksProps) {
   const [showForm, setShowForm] = useState(false);
@@ -227,20 +228,15 @@ export function Tasks({ data }: TasksProps) {
                 />
               </div>
 
+              <div>
+                <label className="label">Subject</label>
+                <SubjectPicker
+                  value={form.subject}
+                  onChange={(subject) => setForm({ ...form, subject })}
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="task-subject" className="label">Subject</label>
-                  <select
-                    id="task-subject"
-                    value={form.subject}
-                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="input"
-                  >
-                    {SUBJECTS.map((s) => (
-                      <option key={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
                 <div>
                   <label htmlFor="task-priority" className="label">Priority</label>
                   <select
@@ -254,17 +250,17 @@ export function Tasks({ data }: TasksProps) {
                     ))}
                   </select>
                 </div>
-              </div>
 
-              <div>
-                <label htmlFor="task-due" className="label">Due date</label>
-                <input
-                  id="task-due"
-                  type="date"
-                  value={form.dueDate}
-                  onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
-                  className="input"
-                />
+                <div>
+                  <label htmlFor="task-due" className="label">Due date</label>
+                  <input
+                    id="task-due"
+                    type="date"
+                    value={form.dueDate}
+                    onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
+                    className="input"
+                  />
+                </div>
               </div>
 
               {error && (
