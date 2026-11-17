@@ -118,13 +118,15 @@ export function Tasks({ data }: TasksProps) {
 
       {/* Filters + search */}
       <div className="flex flex-wrap items-center gap-3">
-        <div className="flex rounded-xl bg-white p-1 ring-1 ring-slate-200">
+        <div className="flex rounded-xl bg-white/80 p-1 ring-1 ring-slate-900/10 backdrop-blur dark:bg-white/[0.05] dark:ring-white/10">
           {(['all', 'pending', 'completed'] as Filter[]).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`rounded-lg px-3.5 py-1.5 text-sm font-semibold capitalize transition-colors ${
-                filter === f ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:text-slate-900'
+              className={`rounded-lg px-3.5 py-1.5 text-sm font-semibold capitalize transition-all duration-200 ${
+                filter === f
+                  ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-600/25'
+                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
               }`}
             >
               {f} ({counts[f]})
@@ -198,12 +200,12 @@ export function Tasks({ data }: TasksProps) {
               <div className="min-w-0 flex-1">
                 <p
                   className={`truncate text-sm font-semibold ${
-                    t.completed ? 'text-slate-400 line-through' : 'text-slate-800'
+                    t.completed ? 'text-slate-400 line-through dark:text-slate-500' : 'text-slate-800 dark:text-slate-100'
                   }`}
                 >
                   {t.title}
                 </p>
-                <p className="mt-0.5 text-xs font-medium text-slate-500">
+                <p className="mt-0.5 text-xs font-medium muted">
                   {t.subject} · Due {formatDueLabel(t.dueDate)}
                   {!t.completed && isOverdue(t.dueDate) && (
                     <span className="ml-1 font-bold text-rose-600">· Overdue</span>
@@ -214,10 +216,10 @@ export function Tasks({ data }: TasksProps) {
               <span
                 className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
                   t.priority === 'High'
-                    ? 'bg-rose-100 text-rose-700'
+                    ? 'bg-rose-500/10 text-rose-600 ring-1 ring-rose-500/20 dark:text-rose-400'
                     : t.priority === 'Medium'
-                      ? 'bg-amber-100 text-amber-700'
-                      : 'bg-slate-200 text-slate-600'
+                      ? 'bg-amber-500/10 text-amber-600 ring-1 ring-amber-500/20 dark:text-amber-400'
+                      : 'bg-slate-500/10 text-slate-600 ring-1 ring-slate-500/20 dark:text-slate-400'
                 }`}
               >
                 {t.priority}
@@ -227,14 +229,14 @@ export function Tasks({ data }: TasksProps) {
                 <button
                   onClick={() => startEdit(t)}
                   aria-label="Edit task"
-                  className="rounded-lg p-2 text-slate-400 transition-all duration-200 hover:bg-slate-100 hover:text-indigo-600 active:scale-90"
+                  className="rounded-lg p-2 text-slate-400 transition-all duration-200 hover:bg-violet-500/10 hover:text-violet-600 active:scale-90 dark:hover:bg-violet-400/10"
                 >
                   <Pencil size={16} />
                 </button>
                 <button
                   onClick={() => setPendingDelete(t)}
                   aria-label="Delete task"
-                  className="rounded-lg p-2 text-slate-400 transition-all duration-200 hover:bg-rose-50 hover:text-rose-600 active:scale-90"
+                  className="rounded-lg p-2 text-slate-400 transition-all duration-200 hover:bg-rose-500/10 hover:text-rose-600 active:scale-90 dark:hover:bg-rose-400/10"
                 >
                   <Trash2 size={16} />
                 </button>
@@ -250,13 +252,13 @@ export function Tasks({ data }: TasksProps) {
           <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm animate-fade-in" onClick={closeForm} />
           <div className="card relative w-full max-w-md animate-fade-up p-6 shadow-xl">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="section-title">
                 {editingId ? 'Edit Task' : 'New Task'}
               </h2>
               <button
                 onClick={closeForm}
                 aria-label="Close"
-                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                className="rounded-lg p-1.5 text-slate-400 transition-all duration-200 hover:bg-slate-900/5 hover:text-slate-700 active:scale-90 dark:hover:bg-white/10 dark:hover:text-slate-200"
               >
                 <X size={18} />
               </button>
@@ -311,7 +313,7 @@ export function Tasks({ data }: TasksProps) {
               </div>
 
               {error && (
-                <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700">
+                <p className="rounded-lg bg-rose-500/10 px-3 py-2 text-sm font-medium text-rose-600 ring-1 ring-rose-500/20 dark:text-rose-400">
                   {error}
                 </p>
               )}
@@ -337,11 +339,11 @@ export function Tasks({ data }: TasksProps) {
             onClick={() => setPendingDelete(null)}
           />
           <div className="card relative w-full max-w-sm animate-fade-up p-6 shadow-xl">
-            <div className="empty-icon mx-auto bg-rose-50 text-rose-500 ring-rose-100">
+            <div className="empty-icon mx-auto bg-rose-500/10 text-rose-500 ring-rose-500/20">
               <Trash2 size={22} />
             </div>
             <h2 className="section-title mt-4 text-center">Delete this task?</h2>
-            <p className="mt-1.5 text-center text-sm leading-relaxed text-slate-500">
+            <p className="mt-1.5 text-center text-sm leading-relaxed muted">
               "{pendingDelete.title}" will be permanently removed.
             </p>
             <div className="mt-5 flex justify-center gap-2">

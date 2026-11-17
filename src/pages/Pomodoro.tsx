@@ -111,11 +111,11 @@ export function Pomodoro() {
 
       <div className="card card-lift animate-fade-up mx-auto max-w-xl p-8">
         {/* Mode switch */}
-        <div className="mx-auto flex w-fit rounded-xl bg-slate-100 p-1">
+        <div className="mx-auto flex w-fit rounded-xl bg-slate-900/5 p-1 ring-1 ring-slate-900/5 dark:bg-white/5 dark:ring-white/10">
           <button
             onClick={() => switchMode('focus')}
             className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-bold transition-colors ${
-              isFocus ? 'bg-white text-indigo-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              isFocus ? 'bg-white text-violet-700 shadow-sm dark:bg-white/10 dark:text-violet-300' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
             }`}
           >
             <TimerIcon size={15} />
@@ -124,7 +124,7 @@ export function Pomodoro() {
           <button
             onClick={() => switchMode('break')}
             className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-bold transition-colors ${
-              !isFocus ? 'bg-white text-sky-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              !isFocus ? 'bg-white text-sky-700 shadow-sm dark:bg-white/10 dark:text-sky-300' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
             }`}
           >
             <Coffee size={15} />
@@ -135,29 +135,32 @@ export function Pomodoro() {
         {/* Timer display */}
         <div className="relative mx-auto mt-8 flex h-72 w-72 items-center justify-center">
           <svg width="288" height="288" className="-rotate-90">
-            <circle cx="144" cy="144" r="130" fill="none" stroke="rgb(241 245 249)" strokeWidth="14" />
+            <circle cx="144" cy="144" r="130" fill="none" strokeWidth="14" className="stroke-slate-900/10 dark:stroke-white/10" />
             <circle
               cx="144"
               cy="144"
               r="130"
               fill="none"
-              stroke={isFocus ? '#6366f1' : '#0ea5e9'}
+              stroke={isFocus ? '#8b5cf6' : '#38bdf8'}
               strokeWidth="14"
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={circumference * (1 - progress)}
-              style={{ transition: 'stroke-dashoffset 0.5s linear' }}
+              style={{
+                transition: 'stroke-dashoffset 0.5s linear',
+                filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.4))',
+              }}
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span
-              className={`font-mono text-6xl font-extrabold tabular-nums tracking-tight ${
-                isFocus ? 'text-slate-900' : 'text-sky-600'
+              className={`font-display text-6xl font-extrabold tabular-nums tracking-tight ${
+                isFocus ? 'text-slate-900 dark:text-white' : 'text-sky-600 dark:text-sky-400'
               }`}
             >
               {format(secondsLeft)}
             </span>
-            <span className="mt-1 text-xs font-bold uppercase tracking-widest text-slate-400">
+            <span className="mt-1 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
               {isFocus ? 'Focus Session' : 'Break Time'}
             </span>
           </div>
@@ -184,17 +187,15 @@ export function Pomodoro() {
 
         {/* Completion message */}
         {sessionMessage && (
-          <div className="mt-6 rounded-xl bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-800 ring-1 ring-emerald-100">
+          <div className="mt-6 rounded-xl bg-emerald-500/10 px-4 py-3 text-center text-sm font-semibold text-emerald-700 ring-1 ring-emerald-500/20 dark:text-emerald-400">
             {sessionMessage}
           </div>
         )}
       </div>
 
       <div className="card card-lift animate-fade-up stagger-1 mx-auto max-w-xl p-6 text-center">
-        <p className="text-sm text-slate-500">
-          Focus sessions completed all-time
-        </p>
-        <p className="mt-1 text-3xl font-extrabold tracking-tight text-indigo-600">
+        <p className="text-sm muted">Focus sessions completed all-time</p>
+        <p className="font-display mt-1 text-3xl font-extrabold tracking-tight bg-gradient-to-r from-violet-600 to-sky-500 bg-clip-text text-transparent">
           {completedCount}
         </p>
       </div>

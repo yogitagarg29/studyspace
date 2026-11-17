@@ -57,8 +57,8 @@ export function StudyTracker({ data }: StudyTrackerProps) {
         <div className="stat-card animate-fade-up">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-500">Total Hours</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">
+              <p className="text-sm font-semibold muted">Total Hours</p>
+              <p className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {Math.round(d.hoursTotal * 10) / 10}
               </p>
             </div>
@@ -70,8 +70,8 @@ export function StudyTracker({ data }: StudyTrackerProps) {
         <div className="stat-card animate-fade-up stagger-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-500">Hours Today</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">
+              <p className="text-sm font-semibold muted">Hours Today</p>
+              <p className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {Math.round(d.hoursToday * 10) / 10}
               </p>
             </div>
@@ -83,8 +83,8 @@ export function StudyTracker({ data }: StudyTrackerProps) {
         <div className="stat-card animate-fade-up stagger-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-500">Subjects Studied</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">
+              <p className="text-sm font-semibold muted">Subjects Studied</p>
+              <p className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {d.bySubject.length}
               </p>
             </div>
@@ -114,10 +114,10 @@ export function StudyTracker({ data }: StudyTrackerProps) {
               {d.bySubject.map(({ subject: s, hours: h }) => (
                 <li key={s}>
                   <div className="mb-1.5 flex items-center justify-between text-sm">
-                    <span className="font-semibold text-slate-700">{s}</span>
+                    <span className="font-semibold text-slate-700 dark:text-slate-300">{s}</span>
                     <span className="font-bold text-slate-500">{Math.round(h * 10) / 10}h</span>
                   </div>
-                  <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-2.5 overflow-hidden rounded-full bg-slate-900/10 dark:bg-white/10">
                     <div
                       className={`h-full rounded-full bg-gradient-to-r ${subjectColor(s)}`}
                       style={{
@@ -146,17 +146,17 @@ export function StudyTracker({ data }: StudyTrackerProps) {
               </p>
             </div>
           ) : (
-            <ul className="mt-4 divide-y divide-slate-100">
+            <ul className="mt-4 divide-y divide-slate-900/5 dark:divide-white/5">
               {recent.map((s) => (
-                <li key={s.id} className="flex items-center gap-3 py-3 transition-colors hover:bg-slate-50/80">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                <li key={s.id} className="flex items-center gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-violet-500/5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500/15 to-sky-500/15 text-violet-500 ring-1 ring-violet-500/20 dark:text-violet-300">
                     <Clock size={16} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-slate-800">{s.subject}</p>
                     <p className="text-xs font-medium text-slate-500">{formatShortDate(s.date)}</p>
                   </div>
-                  <span className="text-sm font-bold text-slate-700">
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
                     {Math.round(s.hours * 100) / 100}h
                   </span>
                   <button
@@ -165,7 +165,7 @@ export function StudyTracker({ data }: StudyTrackerProps) {
                       setToast('Session removed');
                     }}
                     aria-label="Delete session"
-                    className="rounded-lg p-2 text-slate-300 transition-all duration-200 hover:bg-rose-50 hover:text-rose-600 active:scale-90"
+                    className="rounded-lg p-2 text-slate-300 transition-all duration-200 hover:bg-rose-500/10 hover:text-rose-600 active:scale-90 dark:text-slate-600 dark:hover:bg-rose-400/10 dark:hover:text-rose-400"
                   >
                     <Trash2 size={15} />
                   </button>
@@ -185,11 +185,11 @@ export function StudyTracker({ data }: StudyTrackerProps) {
           />
           <div className="card relative w-full max-w-md animate-fade-up p-6 shadow-xl">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-slate-900">Log Study Session</h2>
+              <h2 className="section-title">Log Study Session</h2>
               <button
                 onClick={() => setShowForm(false)}
                 aria-label="Close"
-                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                className="rounded-lg p-1.5 text-slate-400 transition-all duration-200 hover:bg-slate-900/5 hover:text-slate-700 active:scale-90 dark:hover:bg-white/10 dark:hover:text-slate-200"
               >
                 <X size={18} />
               </button>
@@ -229,7 +229,7 @@ export function StudyTracker({ data }: StudyTrackerProps) {
               </div>
 
               {error && (
-                <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700">
+                <p className="rounded-lg bg-rose-500/10 px-3 py-2 text-sm font-medium text-rose-600 ring-1 ring-rose-500/20 dark:text-rose-400">
                   {error}
                 </p>
               )}

@@ -61,8 +61,8 @@ export function Analytics({ data }: AnalyticsProps) {
         <div className="stat-card animate-fade-up">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-500">Hours This Week</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">
+              <p className="text-sm font-semibold muted">Hours This Week</p>
+              <p className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {Math.round(totalWeekHours * 10) / 10}
               </p>
             </div>
@@ -74,8 +74,8 @@ export function Analytics({ data }: AnalyticsProps) {
         <div className="stat-card animate-fade-up stagger-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-500">Tasks Completed</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">
+              <p className="text-sm font-semibold muted">Tasks Completed</p>
+              <p className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {d.weekCompleted}
               </p>
             </div>
@@ -87,8 +87,8 @@ export function Analytics({ data }: AnalyticsProps) {
         <div className="stat-card animate-fade-up stagger-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-500">Best Day</p>
-              <p className="mt-1 text-3xl font-extrabold tracking-tight text-slate-900">
+              <p className="text-sm font-semibold muted">Best Day</p>
+              <p className="font-display mt-1 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 {bestDay.label}
                 <span className="ml-1 text-base font-bold text-slate-400">
                   {Math.round(bestDay.hours * 10) / 10}h
@@ -109,15 +109,15 @@ export function Analytics({ data }: AnalyticsProps) {
             <TrendingUp size={18} className="text-indigo-600" />
             Study Hours — Last 7 Days
           </h2>
-          <span className="text-xs font-semibold text-slate-400">
-            avg {Math.round(avgHours * 10) / 10}h/day
-          </span>
+              <span className="text-xs font-semibold muted">
+                avg {Math.round(avgHours * 10) / 10}h/day
+              </span>
         </div>
 
         <div className="mt-6 flex h-48 justify-between gap-3 sm:gap-5">
           {d.weekHours.map((day, i) => (
             <div key={day.label + i} className="flex flex-1 flex-col items-center gap-2">
-              <span className="text-xs font-bold text-slate-500">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
                 {day.hours > 0 ? Math.round(day.hours * 10) / 10 : ''}
               </span>
               <div className="flex min-h-0 w-full max-w-14 flex-1 items-end">
@@ -131,7 +131,7 @@ export function Analytics({ data }: AnalyticsProps) {
                   title={`${day.hours}h on ${day.label}`}
                 />
               </div>
-              <span className="text-xs font-semibold text-slate-500">{day.label}</span>
+              <span className="text-xs font-semibold muted">{day.label}</span>
             </div>
           ))}
         </div>
@@ -143,18 +143,18 @@ export function Analytics({ data }: AnalyticsProps) {
           <h2 className="section-title">Weekly Performance Summary</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">{summary}</p>
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-slate-50 p-4">
-              <p className="text-xs font-semibold text-slate-500">Completion rate</p>
-              <p className="mt-1 text-xl font-extrabold text-slate-900">
+            <div className="rounded-xl bg-gradient-to-br from-violet-500/10 to-sky-500/10 p-4 ring-1 ring-violet-500/15">
+              <p className="text-xs font-semibold muted">Completion rate</p>
+              <p className="font-display mt-1 text-xl font-extrabold text-slate-900 dark:text-white">
                 {d.totalTasks > 0
                   ? Math.round((d.completedTasks / d.totalTasks) * 100)
                   : 0}
                 %
               </p>
             </div>
-            <div className="rounded-xl bg-slate-50 p-4">
-              <p className="text-xs font-semibold text-slate-500">Productivity score</p>
-              <p className="mt-1 text-xl font-extrabold text-slate-900">{d.score}%</p>
+            <div className="rounded-xl bg-gradient-to-br from-violet-500/10 to-sky-500/10 p-4 ring-1 ring-violet-500/15">
+              <p className="text-xs font-semibold muted">Productivity score</p>
+              <p className="font-display mt-1 text-xl font-extrabold text-slate-900 dark:text-white">{d.score}%</p>
             </div>
           </div>
         </div>
@@ -179,10 +179,10 @@ export function Analytics({ data }: AnalyticsProps) {
                 .map(({ subject, hours }) => (
                   <li key={subject}>
                     <div className="mb-1.5 flex items-center justify-between text-sm">
-                      <span className="font-semibold text-slate-700">{subject}</span>
-                      <span className="font-bold text-slate-500">{Math.round(hours * 10) / 10}h</span>
+                      <span className="font-semibold text-slate-700 dark:text-slate-300">{subject}</span>
+                      <span className="font-bold text-slate-500 dark:text-slate-400">{Math.round(hours * 10) / 10}h</span>
                     </div>
-                    <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+                    <div className="h-2.5 overflow-hidden rounded-full bg-slate-900/10 dark:bg-white/10">
                       <div
                         className={`h-full rounded-full bg-gradient-to-r ${subjectColor(subject)}`}
                         style={{ width: `${(hours / maxSubject) * 100}%` }}
