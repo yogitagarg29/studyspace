@@ -10,8 +10,7 @@ If the user asks about anything unrelated to studying or academics, politely red
 Explain concepts in simple English with clear examples suitable for college students.
 Keep answers focused, structured, and encouraging.`;
 
-const PRIMARY_MODEL = "gemini-2.0-flash";
-const FALLBACK_MODEL = "gemini-1.5-flash";
+const MODEL = "gemini-3.8-flash";
 
 interface MessageItem {
   role: "user" | "assistant" | "model";
@@ -105,14 +104,7 @@ Deno.serve(async (req: Request) => {
     // Temperature slider support strictly between 0.1 and 1.0
     const temp = Math.min(Math.max(Number(temperature) || 0.7, 0.1), 1.0);
 
-    // Attempt primary model (gemini-2.0-flash)
-    let call = await callGemini(PRIMARY_MODEL, apiKey, contents, temp);
-
-    // Fallback to gemini-1.5-flash if model not found or unavailable
-    if (!call.ok && (call.status === 404 || call.status === 503)) {
-      console.warn(`[StudyBuddy] ${PRIMARY_MODEL} returned ${call.status}, falling back to ${FALLBACK_MODEL}`);
-      call = await callGemini(FALLBACK_MODEL, apiKey, contents, temp);
-    }
+    const call = await callGemini(MODEL, apiKey, contents, temp);
 
     if (call.ok && call.text) {
       return new Response(JSON.stringify({ reply: call.text }), {

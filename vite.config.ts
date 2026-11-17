@@ -53,26 +53,18 @@ If the user asks about anything unrelated to studying or academics, politely red
 Explain concepts in simple English with clear examples suitable for college students.
 Keep answers focused, structured, and encouraging.`;
 
-                    // Primary model
-                    const callModel = async (model: string) => {
-                      return fetch(
-                        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-                        {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            contents,
-                            systemInstruction: { parts: [{ text: systemPrompt }] },
-                            generationConfig: { temperature: temp },
-                          }),
-                        },
-                      );
-                    };
-
-                    let apiRes = await callModel('gemini-2.0-flash');
-                    if (!apiRes.ok && (apiRes.status === 404 || apiRes.status === 503)) {
-                      apiRes = await callModel('gemini-1.5-flash');
-                    }
+                    const apiRes = await fetch(
+                      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
+                      {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          contents,
+                          systemInstruction: { parts: [{ text: systemPrompt }] },
+                          generationConfig: { temperature: temp },
+                        }),
+                      },
+                    );
 
                     const data = await apiRes.json().catch(() => null);
 

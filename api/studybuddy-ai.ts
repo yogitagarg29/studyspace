@@ -14,8 +14,7 @@ If the user asks about anything unrelated to studying or academics, politely red
 Explain concepts in simple English with clear examples suitable for college students.
 Keep answers focused, structured, and encouraging.`;
 
-const PRIMARY_MODEL = 'gemini-2.0-flash';
-const FALLBACK_MODEL = 'gemini-1.5-flash';
+const MODEL = 'gemini-3.8-flash';
 
 interface MessageItem {
   role: 'user' | 'assistant' | 'model';
@@ -108,10 +107,7 @@ export default async function handler(req: Request): Promise<Response> {
       );
     }
 
-    const apiKey =
-      (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) ||
-      (typeof globalThis !== 'undefined' && (globalThis as unknown as Record<string, string>)?.GEMINI_API_KEY) ||
-      '';
+    const apiKey = process.env.GEMINI_API_KEY || '';
 
     if (!apiKey) {
       return new Response(
@@ -131,11 +127,7 @@ export default async function handler(req: Request): Promise<Response> {
 
     const temp = Math.min(Math.max(Number(temperature) || 0.7, 0.1), 1.0);
 
-    let call = await callGemini(PRIMARY_MODEL, apiKey, contents, temp);
-
-    if (!call.ok && (call.status === 404 || call.status === 503)) {
-      call = await callGemini(FALLBACK_MODEL, apiKey, contents, temp);
-    }
+    const call = await callGemini(MODEL, apiKey, contents, temp);
 
     if (call.ok && call.text) {
       return new Response(JSON.stringify({ reply: call.text }), {
