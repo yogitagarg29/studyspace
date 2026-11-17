@@ -19,12 +19,21 @@ STUDYSPACE is a student productivity web application designed to help college st
 - LocalStorage
 
 ## Screenshots
-Add screenshots of:
-- Dashboard
-- Task Manager
-- Study Tracker
-- Focus Timer
-- Weekly Analytics
+
+### Dashboard
+![STUDYSPACE Dashboard](dashboard.png)
+
+### Task Manager
+![My Tasks](tasks.png)
+
+### Study Tracker
+![Study Tracker](studytracker.png)
+
+### Focus Timer
+![Pomodoro Timer](focus.png)
+
+### Weekly Analytics
+![Weekly Analytics](analytics.png)
 
 ## Live Application
 https://studyspace-rosy.vercel.app/
