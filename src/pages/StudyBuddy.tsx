@@ -43,6 +43,8 @@ const ERROR_MESSAGES: Record<string, string> = {
     'The API key was rejected. Please check that GEMINI_API_KEY is a valid Google Gemini key.',
   rate_limited:
     'StudyBuddy is getting a lot of requests right now. Please wait a moment and try again.',
+  model_unavailable:
+    'The AI model is not available for this API key right now. The key may need billing enabled or access approval in Google AI Studio.',
   server_error: 'The AI service had a hiccup. Please try again in a little while.',
   network_error: 'I could not reach the server. Please check your connection and try again.',
 };
