@@ -4,12 +4,13 @@
 STUDYSPACE is a student productivity web application designed to help college students organize their academic tasks, track study hours and improve their daily productivity.
 
 ## Features
-- Daily Task Management
+- Daily Task Management with Subject-Wise Filtering
 - Study Hours Tracker
-- Pomodoro Focus Timer
-- Daily Productivity Score
-- Weekly Progress Analytics
-- Responsive Dashboard
+- Pomodoro Focus Timer with Customizable Intervals & Audio Chimes
+- Daily Productivity Score & Study Streak
+- Weekly Progress Analytics & Subject Breakdown
+- StudyBuddy AI (Academic AI Assistant powered by Google Gemini)
+- Responsive Dashboard & Dark/Light Mode
 
 ## Technologies Used
 - React
