@@ -6,10 +6,11 @@ import { Tasks } from '@/pages/Tasks';
 import { StudyTracker } from '@/pages/StudyTracker';
 import { Pomodoro } from '@/pages/Pomodoro';
 import { Analytics } from '@/pages/Analytics';
+import { StudyBuddy } from '@/pages/StudyBuddy';
 import { useStudySpace } from '@/hooks/useStudySpace';
 import { useTheme } from '@/hooks/useTheme';
 
-const VALID_PAGES: PageId[] = ['dashboard', 'tasks', 'study', 'timer', 'analytics'];
+const VALID_PAGES: PageId[] = ['dashboard', 'tasks', 'study', 'timer', 'analytics', 'buddy'];
 
 function pageFromHash(): PageId {
   const hash = window.location.hash.replace('#/', '') as PageId;
@@ -85,6 +86,7 @@ export default function App() {
             {currentPage === 'study' && <StudyTracker data={data} />}
             {currentPage === 'timer' && <Pomodoro />}
             {currentPage === 'analytics' && <Analytics data={data} />}
+            {currentPage === 'buddy' && <StudyBuddy />}
           </div>
         </main>
       </div>

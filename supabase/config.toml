@@ -1,0 +1,4 @@
+project_id = "studyspace"
+
+[functions.studybuddy-ai]
+verify_jwt = false

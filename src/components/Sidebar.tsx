@@ -5,13 +5,14 @@ import {
   ListTodo,
   Timer,
   GraduationCap,
+  Bot,
   X,
   Moon,
   Sun,
 } from 'lucide-react';
 import type { Theme } from '@/hooks/useTheme';
 
-export type PageId = 'dashboard' | 'tasks' | 'study' | 'timer' | 'analytics';
+export type PageId = 'dashboard' | 'tasks' | 'study' | 'timer' | 'analytics' | 'buddy';
 
 const NAV_ITEMS: { id: PageId; label: string; icon: typeof LayoutDashboard }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -19,6 +20,7 @@ const NAV_ITEMS: { id: PageId; label: string; icon: typeof LayoutDashboard }[] =
   { id: 'study', label: 'Study Tracker', icon: BookOpenCheck },
   { id: 'timer', label: 'Focus Timer', icon: Timer },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+  { id: 'buddy', label: 'StudyBuddy AI', icon: Bot },
 ];
 
 interface SidebarProps {
