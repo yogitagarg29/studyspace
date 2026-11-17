@@ -30,16 +30,9 @@ export const SUBJECTS = [
   'Chemistry',
   'Biology',
   'Computer Science',
-  'Statistics',
   'Economics',
-  'Psychology',
   'History',
   'Literature',
-  'Geography',
-  'Philosophy',
-  'Political Science',
-  'Art & Design',
-  'Music',
 ];
 
 /** Gradient classes per subject, used for chips and progress bars. */
@@ -49,20 +42,26 @@ export const SUBJECT_COLORS: Record<string, string> = {
   Chemistry: 'from-emerald-500 to-teal-400',
   Biology: 'from-green-500 to-lime-400',
   'Computer Science': 'from-blue-600 to-indigo-500',
-  Statistics: 'from-violet-500 to-fuchsia-400',
   Economics: 'from-amber-500 to-orange-400',
-  Psychology: 'from-rose-500 to-pink-400',
   History: 'from-orange-600 to-amber-400',
   Literature: 'from-pink-500 to-rose-400',
-  Geography: 'from-teal-500 to-emerald-400',
-  Philosophy: 'from-slate-500 to-slate-400',
-  'Political Science': 'from-red-500 to-orange-400',
-  'Art & Design': 'from-fuchsia-500 to-pink-400',
-  Music: 'from-purple-500 to-indigo-400',
 };
 
+const FALLBACK_COLORS = [
+  'from-indigo-500 to-sky-500',
+  'from-violet-500 to-fuchsia-400',
+  'from-teal-500 to-emerald-400',
+  'from-rose-500 to-pink-400',
+  'from-blue-600 to-cyan-400',
+  'from-amber-500 to-yellow-400',
+];
+
 export function subjectColor(subject: string): string {
-  return SUBJECT_COLORS[subject] ?? 'from-indigo-500 to-sky-500';
+  if (SUBJECT_COLORS[subject]) return SUBJECT_COLORS[subject];
+  // Pick a stable fallback gradient for custom subjects
+  let hash = 0;
+  for (let i = 0; i < subject.length; i++) hash = (hash * 31 + subject.charCodeAt(i)) >>> 0;
+  return FALLBACK_COLORS[hash % FALLBACK_COLORS.length];
 }
 
 export const PRIORITIES: Priority[] = ['Low', 'Medium', 'High'];
