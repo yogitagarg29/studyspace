@@ -19,6 +19,7 @@ export default function App() {
   const data = useStudySpace();
   const [page, setPage] = useState<PageId>(pageFromHash);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pageKey, setPageKey] = useState(0);
 
   useEffect(() => {
     const onHashChange = () => setPage(pageFromHash());
@@ -29,6 +30,7 @@ export default function App() {
   const navigate = (next: PageId) => {
     window.location.hash = `#/${next}`;
     setPage(next);
+    setPageKey((k) => k + 1);
     window.scrollTo({ top: 0 });
   };
 
@@ -62,11 +64,13 @@ export default function App() {
         </header>
 
         <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
-          {currentPage === 'dashboard' && <Dashboard data={data} onNavigate={navigate} />}
-          {currentPage === 'tasks' && <Tasks data={data} />}
-          {currentPage === 'study' && <StudyTracker data={data} />}
-          {currentPage === 'timer' && <Pomodoro />}
-          {currentPage === 'analytics' && <Analytics data={data} />}
+          <div key={pageKey} className="animate-fade-in">
+            {currentPage === 'dashboard' && <Dashboard data={data} onNavigate={navigate} />}
+            {currentPage === 'tasks' && <Tasks data={data} />}
+            {currentPage === 'study' && <StudyTracker data={data} />}
+            {currentPage === 'timer' && <Pomodoro />}
+            {currentPage === 'analytics' && <Analytics data={data} />}
+          </div>
         </main>
       </div>
     </div>

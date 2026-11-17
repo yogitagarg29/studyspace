@@ -27,7 +27,10 @@ interface SidebarProps {
 
 export function Sidebar({ page, onNavigate, mobileOpen, onCloseMobile }: SidebarProps) {
   const nav = (
-    <nav className="flex flex-1 flex-col gap-1 px-3">
+    <nav className="flex flex-1 flex-col gap-1.5 px-4">
+      <p className="px-3.5 pb-2 pt-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
+        Menu
+      </p>
       {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
         const active = page === id;
         return (
@@ -37,13 +40,22 @@ export function Sidebar({ page, onNavigate, mobileOpen, onCloseMobile }: Sidebar
               onNavigate(id);
               onCloseMobile();
             }}
-            className={`flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-colors duration-200 ${
+            className={`relative flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-all duration-200 ${
               active
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-950/40'
-                : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-950/50'
+                : 'text-slate-400 hover:bg-white/5 hover:text-white active:scale-[0.98]'
             }`}
           >
-            <Icon size={18} strokeWidth={2.2} />
+            {active && (
+              <span className="absolute -left-4 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-indigo-400" />
+            )}
+            <Icon
+              size={18}
+              strokeWidth={2.2}
+              className={`shrink-0 transition-transform duration-200 ${
+                active ? 'scale-110' : 'group-hover:scale-110'
+              }`}
+            />
             {label}
           </button>
         );
@@ -66,7 +78,7 @@ export function Sidebar({ page, onNavigate, mobileOpen, onCloseMobile }: Sidebar
   );
 
   const footer = (
-    <div className="px-6 pb-6 pt-2">
+    <div className="px-4 pb-6 pt-2">
       <div className="rounded-xl bg-white/5 p-4 ring-1 ring-white/10">
         <p className="text-xs font-semibold text-white">Stay consistent</p>
         <p className="mt-1 text-xs leading-relaxed text-slate-400">
@@ -81,6 +93,7 @@ export function Sidebar({ page, onNavigate, mobileOpen, onCloseMobile }: Sidebar
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-[#0f172a] lg:flex">
         {brand}
+        <div className="mx-4 border-t border-white/10" />
         {nav}
         {footer}
       </aside>

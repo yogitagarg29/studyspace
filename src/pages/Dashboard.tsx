@@ -3,7 +3,6 @@ import { ProgressRing } from '@/components/ProgressRing';
 import type { StudySpace } from '@/hooks/useStudySpace';
 import { useDerived } from '@/utils/stats';
 import { formatDueLabel, formatLongDate, isOverdue, todayISO } from '@/utils/date';
-
 interface DashboardProps {
   data: StudySpace;
   onNavigate: (page: 'tasks' | 'study' | 'timer' | 'analytics') => void;
@@ -29,7 +28,7 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="stat-card">
+        <div className="stat-card animate-fade-up">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-500">Total Tasks</p>
@@ -37,13 +36,16 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
                 {d.totalTasks}
               </p>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div
+              className="tooltip flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition-transform duration-200 hover:scale-110"
+              data-tip="All tasks in your list"
+            >
               <ListTodo size={22} />
             </div>
           </div>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card animate-fade-up stagger-1">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-500">Completed Tasks</p>
@@ -51,13 +53,16 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
                 {d.completedTasks}
               </p>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            <div
+              className="tooltip flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition-transform duration-200 hover:scale-110"
+              data-tip="Tasks you've finished"
+            >
               <CheckCircle2 size={22} />
             </div>
           </div>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card animate-fade-up stagger-2">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-500">Study Hours</p>
@@ -69,7 +74,10 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
                 {Math.round(d.hoursToday * 10) / 10}h today
               </p>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+            <div
+              className="tooltip flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition-transform duration-200 hover:scale-110"
+              data-tip="Total across all subjects"
+            >
               <Clock size={22} />
             </div>
           </div>
@@ -78,8 +86,8 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         {/* Daily progress + productivity */}
-        <div className="card flex flex-col items-center gap-4 p-6">
-          <h2 className="self-start text-base font-bold text-slate-900">Daily Productivity Score</h2>
+        <div className="card card-lift animate-fade-up stagger-1 flex flex-col items-center gap-4 p-6">
+          <h2 className="section-title self-start">Daily Productivity Score</h2>
           <ProgressRing value={d.score} sublabel="today" />
           <p className="text-center text-sm leading-relaxed text-slate-500">
             Based on {d.todaysCompleted} of {d.todaysTasks.length} tasks done and{' '}
@@ -88,9 +96,9 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
         </div>
 
         {/* Today's Focus */}
-        <div className="card p-6 xl:col-span-2">
+        <div className="card card-lift animate-fade-up stagger-2 p-6 xl:col-span-2">
           <div className="flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-base font-bold text-slate-900">
+            <h2 className="section-title flex items-center gap-2">
               <Sparkles size={18} className="text-indigo-600" />
               Today's Focus
             </h2>
@@ -103,13 +111,15 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
           </div>
 
           {todaysFocus.length === 0 ? (
-            <div className="mt-6 flex flex-col items-center rounded-xl bg-slate-50 py-10 text-center">
-              <CheckCircle2 size={28} className="text-emerald-500" />
-              <p className="mt-2 text-sm font-semibold text-slate-700">
+            <div className="empty-state mt-6">
+              <div className="empty-icon">
+                <CheckCircle2 size={24} />
+              </div>
+              <p className="mt-3 text-sm font-semibold text-slate-700">
                 Nothing due today — you're all caught up!
               </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Plan ahead or log a study session to keep momentum.
+              <p className="mt-1 max-w-xs text-xs leading-relaxed text-slate-500">
+                Plan ahead or log a study session to keep the momentum going.
               </p>
             </div>
           ) : (
@@ -142,9 +152,9 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
       </div>
 
       {/* Upcoming */}
-      <div className="card p-6">
+      <div className="card card-lift animate-fade-up stagger-3 p-6">
         <div className="flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-base font-bold text-slate-900">
+          <h2 className="section-title flex items-center gap-2">
             <TrendingUp size={18} className="text-indigo-600" />
             Upcoming Tasks
           </h2>
@@ -157,9 +167,15 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
         </div>
 
         {upcoming.length === 0 ? (
-          <p className="mt-4 rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
-            No pending tasks. Add one from the My Tasks page.
-          </p>
+          <div className="empty-state mt-4">
+            <div className="empty-icon">
+              <TrendingUp size={24} />
+            </div>
+            <p className="mt-3 text-sm font-semibold text-slate-700">No pending tasks</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Add one from the My Tasks page to see it here.
+            </p>
+          </div>
         ) : (
           <ul className="mt-4 divide-y divide-slate-100">
             {upcoming.map((t) => (

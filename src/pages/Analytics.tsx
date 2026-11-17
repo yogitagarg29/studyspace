@@ -58,7 +58,7 @@ export function Analytics({ data }: AnalyticsProps) {
       </header>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="stat-card">
+        <div className="stat-card animate-fade-up">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-500">Hours This Week</p>
@@ -66,12 +66,12 @@ export function Analytics({ data }: AnalyticsProps) {
                 {Math.round(totalWeekHours * 10) / 10}
               </p>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="tooltip flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 transition-transform duration-200 hover:scale-110" data-tip="Last 7 days">
               <Clock size={22} />
             </div>
           </div>
         </div>
-        <div className="stat-card">
+        <div className="stat-card animate-fade-up stagger-1">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-500">Tasks Completed</p>
@@ -79,12 +79,12 @@ export function Analytics({ data }: AnalyticsProps) {
                 {d.weekCompleted}
               </p>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            <div className="tooltip flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition-transform duration-200 hover:scale-110" data-tip="Due this week">
               <CalendarCheck size={22} />
             </div>
           </div>
         </div>
-        <div className="stat-card">
+        <div className="stat-card animate-fade-up stagger-2">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-slate-500">Best Day</p>
@@ -95,7 +95,7 @@ export function Analytics({ data }: AnalyticsProps) {
                 </span>
               </p>
             </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+            <div className="tooltip flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600 transition-transform duration-200 hover:scale-110" data-tip="Most productive day">
               <Flame size={22} />
             </div>
           </div>
@@ -103,9 +103,9 @@ export function Analytics({ data }: AnalyticsProps) {
       </div>
 
       {/* Weekly bar chart */}
-      <div className="card p-6">
+      <div className="card card-lift animate-fade-up stagger-1 p-6">
         <div className="flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-base font-bold text-slate-900">
+          <h2 className="section-title flex items-center gap-2">
             <TrendingUp size={18} className="text-indigo-600" />
             Study Hours — Last 7 Days
           </h2>
@@ -122,12 +122,13 @@ export function Analytics({ data }: AnalyticsProps) {
               </span>
               <div className="flex min-h-0 w-full max-w-14 flex-1 items-end">
                 <div
-                  className={`w-full rounded-t-lg bg-gradient-to-t ${BAR_COLORS[i % BAR_COLORS.length]}`}
+                  className={`w-full rounded-t-lg bg-gradient-to-t transition-transform duration-200 hover:scale-x-105 ${BAR_COLORS[i % BAR_COLORS.length]}`}
                   style={{
                     height: `${Math.max((day.hours / maxHours) * 100, day.hours > 0 ? 6 : 2)}%`,
                     transition: 'height 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
                     opacity: day.hours > 0 ? 1 : 0.25,
                   }}
+                  title={`${day.hours}h on ${day.label}`}
                 />
               </div>
               <span className="text-xs font-semibold text-slate-500">{day.label}</span>
@@ -138,8 +139,8 @@ export function Analytics({ data }: AnalyticsProps) {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         {/* Weekly summary */}
-        <div className="card p-6">
-          <h2 className="text-base font-bold text-slate-900">Weekly Performance Summary</h2>
+        <div className="card card-lift animate-fade-up stagger-2 p-6">
+          <h2 className="section-title">Weekly Performance Summary</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">{summary}</p>
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div className="rounded-xl bg-slate-50 p-4">
@@ -159,12 +160,18 @@ export function Analytics({ data }: AnalyticsProps) {
         </div>
 
         {/* Subject breakdown */}
-        <div className="card p-6">
-          <h2 className="text-base font-bold text-slate-900">Hours by Subject</h2>
+        <div className="card card-lift animate-fade-up stagger-3 p-6">
+          <h2 className="section-title">Hours by Subject</h2>
           {subjectShare.length === 0 ? (
-            <p className="mt-4 rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
-              No study data yet.
-            </p>
+            <div className="empty-state mt-4">
+              <div className="empty-icon">
+                <TrendingUp size={24} />
+              </div>
+              <p className="mt-3 text-sm font-semibold text-slate-700">No study data yet</p>
+              <p className="mt-1 max-w-xs text-xs leading-relaxed text-slate-500">
+                Log a study session and your subject breakdown will appear here.
+              </p>
+            </div>
           ) : (
             <ul className="mt-5 space-y-4">
               {subjectShare

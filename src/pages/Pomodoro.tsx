@@ -109,7 +109,7 @@ export function Pomodoro() {
         </p>
       </header>
 
-      <div className="card mx-auto max-w-xl p-8">
+      <div className="card card-lift animate-fade-up mx-auto max-w-xl p-8">
         {/* Mode switch */}
         <div className="mx-auto flex w-fit rounded-xl bg-slate-100 p-1">
           <button
@@ -190,7 +190,7 @@ export function Pomodoro() {
         )}
       </div>
 
-      <div className="card mx-auto max-w-xl p-6 text-center">
+      <div className="card card-lift animate-fade-up stagger-1 mx-auto max-w-xl p-6 text-center">
         <p className="text-sm text-slate-500">
           Focus sessions completed all-time
         </p>

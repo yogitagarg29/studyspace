@@ -1,7 +1,17 @@
 import { useState } from 'react';
-import { CheckCircle2, Circle, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
+import {
+  CheckCircle2,
+  Circle,
+  ListTodo,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+  X,
+} from 'lucide-react';
 import { PRIORITIES, type Priority, type Task } from '@/types';
 import { SubjectPicker } from '@/components/SubjectPicker';
+import { Toast } from '@/components/Toast';
 import type { StudySpace } from '@/hooks/useStudySpace';
 import { formatDueLabel, isOverdue, todayISO } from '@/utils/date';
 
@@ -27,6 +37,8 @@ export function Tasks({ data }: TasksProps) {
   const [error, setError] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
+  const [toast, setToast] = useState('');
+  const [pendingDelete, setPendingDelete] = useState<Task | null>(null);
 
   const startAdd = () => {
     setEditingId(null);
@@ -61,10 +73,20 @@ export function Tasks({ data }: TasksProps) {
     }
     if (editingId) {
       data.updateTask(editingId, { title, subject: form.subject, priority: form.priority, dueDate: form.dueDate });
+      setToast('Task updated');
     } else {
       data.addTask({ title, subject: form.subject, priority: form.priority, dueDate: form.dueDate });
+      setToast('Task added');
     }
     closeForm();
+  };
+
+  const confirmDelete = () => {
+    if (pendingDelete) {
+      data.deleteTask(pendingDelete.id);
+      setToast('Task deleted');
+      setPendingDelete(null);
+    }
   };
 
   const visible = data.tasks
@@ -122,24 +144,49 @@ export function Tasks({ data }: TasksProps) {
 
       {/* Task list */}
       {visible.length === 0 ? (
-        <div className="card flex flex-col items-center px-6 py-14 text-center">
-          <Circle size={30} className="text-slate-300" />
-          <p className="mt-3 text-sm font-semibold text-slate-700">No tasks here</p>
-          <p className="mt-1 text-sm text-slate-500">Add a task to get started.</p>
+        <div className="card animate-fade-up">
+          <div className="empty-state border-0 bg-transparent">
+            <div className="empty-icon">
+              <ListTodo size={24} />
+            </div>
+            <p className="mt-3 text-sm font-semibold text-slate-700">
+              {query
+                ? 'No tasks match your search'
+                : filter === 'completed'
+                  ? 'Nothing completed yet'
+                  : filter === 'pending'
+                    ? 'No pending tasks — nice!'
+                    : 'Your task list is empty'}
+            </p>
+            <p className="mt-1 max-w-xs text-xs leading-relaxed text-slate-500">
+              {query
+                ? 'Try a different word or clear the search.'
+                : 'Add your first task to start building momentum.'}
+            </p>
+            {!query && (
+              <button onClick={startAdd} className="btn-primary mt-4">
+                <Plus size={15} strokeWidth={2.5} />
+                Add Task
+              </button>
+            )}
+          </div>
         </div>
       ) : (
         <ul className="space-y-2.5">
           {visible.map((t) => (
             <li
               key={t.id}
-              className={`card flex flex-wrap items-center gap-3 px-5 py-4 transition-shadow hover:shadow-md ${
+              className={`card card-lift animate-fade-up flex flex-wrap items-center gap-3 px-5 py-4 ${
                 t.completed ? 'opacity-70' : ''
               }`}
             >
               <button
-                onClick={() => data.updateTask(t.id, { completed: !t.completed })}
+                onClick={() => {
+                  data.updateTask(t.id, { completed: !t.completed });
+                  setToast(t.completed ? 'Moved to pending' : 'Task completed');
+                }}
                 aria-label={t.completed ? 'Mark as pending' : 'Mark as completed'}
-                className="shrink-0 text-slate-300 transition-colors hover:text-emerald-500"
+                className="shrink-0 text-slate-300 transition-all duration-200 hover:scale-110 hover:text-emerald-500 active:scale-90"
               >
                 {t.completed ? (
                   <CheckCircle2 size={22} className="text-emerald-500" />
@@ -180,14 +227,14 @@ export function Tasks({ data }: TasksProps) {
                 <button
                   onClick={() => startEdit(t)}
                   aria-label="Edit task"
-                  className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-indigo-600"
+                  className="rounded-lg p-2 text-slate-400 transition-all duration-200 hover:bg-slate-100 hover:text-indigo-600 active:scale-90"
                 >
                   <Pencil size={16} />
                 </button>
                 <button
-                  onClick={() => data.deleteTask(t.id)}
+                  onClick={() => setPendingDelete(t)}
                   aria-label="Delete task"
-                  className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+                  className="rounded-lg p-2 text-slate-400 transition-all duration-200 hover:bg-rose-50 hover:text-rose-600 active:scale-90"
                 >
                   <Trash2 size={16} />
                 </button>
@@ -200,8 +247,8 @@ export function Tasks({ data }: TasksProps) {
       {/* Add / edit modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={closeForm} />
-          <div className="card relative w-full max-w-md p-6 shadow-xl">
+          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm animate-fade-in" onClick={closeForm} />
+          <div className="card relative w-full max-w-md animate-fade-up p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-slate-900">
                 {editingId ? 'Edit Task' : 'New Task'}
@@ -281,6 +328,35 @@ export function Tasks({ data }: TasksProps) {
           </div>
         </div>
       )}
+
+      {/* Delete confirmation */}
+      {pendingDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm animate-fade-in"
+            onClick={() => setPendingDelete(null)}
+          />
+          <div className="card relative w-full max-w-sm animate-fade-up p-6 shadow-xl">
+            <div className="empty-icon mx-auto bg-rose-50 text-rose-500 ring-rose-100">
+              <Trash2 size={22} />
+            </div>
+            <h2 className="section-title mt-4 text-center">Delete this task?</h2>
+            <p className="mt-1.5 text-center text-sm leading-relaxed text-slate-500">
+              "{pendingDelete.title}" will be permanently removed.
+            </p>
+            <div className="mt-5 flex justify-center gap-2">
+              <button onClick={() => setPendingDelete(null)} className="btn-secondary flex-1">
+                Cancel
+              </button>
+              <button onClick={confirmDelete} className="btn-primary flex-1 bg-rose-600 hover:bg-rose-700 hover:shadow-rose-600/25">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toast && <Toast message={toast} onDone={() => setToast('')} />}
     </div>
   );
 }
