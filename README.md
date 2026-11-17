@@ -24,7 +24,7 @@ STUDYSPACE is a student productivity web application designed to help college st
 ![STUDYSPACE Dashboard](dashboard.png)
 
 ### Task Manager
-![My Tasks](tasks.png)
+![My Tasks](task.png)
 
 ### Study Tracker
 ![Study Tracker](studytracer.png)
