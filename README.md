@@ -27,10 +27,10 @@ STUDYSPACE is a student productivity web application designed to help college st
 ![My Tasks](tasks.png)
 
 ### Study Tracker
-![Study Tracker](studytracker.png)
+![Study Tracker](studytracer.png)
 
 ### Focus Timer
-![Pomodoro Timer](focus.png)
+![focus Timer](focus.png)
 
 ### Weekly Analytics
 ![Weekly Analytics](analytics.png)
