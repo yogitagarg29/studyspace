@@ -47,5 +47,13 @@ https://github.com/yogitagarg29/studyspace
 3. Run npm run dev.
 4. Open the local development URL in your browser.
 
+## User Feedback and Improvement
+
+**Feedback Received:** Users suggested that finding tasks belonging to a particular subject becomes difficult when the task list contains many entries.
+
+**Improvement Implemented:** Added a subject-wise task filtering feature that allows users to filter tasks by Mathematics, Physics, Chemistry, Biology and Computer Science.
+
+**Result:** Task management became more organized and convenient, allowing students to find academic tasks easily.
+
 ## Deployment
 The application is deployed using Vercel.
