@@ -14,7 +14,7 @@ If the user asks about anything unrelated to studying or academics, politely red
 Explain concepts in simple English with clear examples suitable for college students.
 Keep answers focused, structured, and encouraging.`;
 
-const MODEL = 'gemini-3.8-flash';
+const MODEL = 'gemini-2.5-flash';
 
 interface MessageItem {
   role: 'user' | 'assistant' | 'model';
