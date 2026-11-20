@@ -4,8 +4,8 @@ import {
   LayoutDashboard,
   ListTodo,
   Timer,
-  GraduationCap,
   BrainCircuit,
+  Sparkles,
   X,
   Moon,
   Sun,
@@ -79,8 +79,9 @@ export function Sidebar({
 
   const brand = (
     <div className="flex items-center gap-3 px-6 py-6">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 via-indigo-500 to-sky-500 shadow-lg shadow-violet-950/50">
-        <GraduationCap size={20} className="text-white" strokeWidth={2.2} />
+      <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 via-violet-500 to-fuchsia-500 shadow-lg shadow-violet-950/50 ring-1 ring-white/20">
+        <BrainCircuit size={21} className="text-white" strokeWidth={2.1} />
+        <Sparkles size={10} className="absolute -right-1 -top-1 fill-yellow-300 text-yellow-200" strokeWidth={2.5} />
       </div>
       <div>
         <p className="font-display text-base font-extrabold tracking-tight text-white">
