@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Flame,
   Bot,
+  BrainCircuit,
   Calendar,
   Plus,
   BookOpen,
@@ -119,7 +120,7 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
                 ? `You have ${d.todaysTasks.length} task${
                     d.todaysTasks.length > 1 ? 's' : ''
                   } due today and ${Math.round(d.hoursToday * 10) / 10}h of study logged. Let's make today productive!`
-                : 'All caught up on today’s deadlines. Ready to start a focus timer or ask StudyBuddy AI?'}
+                : 'All caught up on today’s deadlines. Ready to start a focus timer or ask MindSpark AI?'}
             </p>
 
             {/* Quick Actions */}
@@ -141,8 +142,8 @@ export function Dashboard({ data, onNavigate }: DashboardProps) {
                 onClick={() => onNavigate('buddy')}
                 className="inline-flex items-center gap-2 rounded-xl bg-violet-500/20 px-4 py-2.5 text-sm font-semibold text-violet-200 ring-1 ring-violet-400/30 backdrop-blur transition-all duration-200 hover:bg-violet-500/30 active:scale-[0.97]"
               >
-                <Bot size={15} />
-                StudyBuddy AI
+                <BrainCircuit size={15} />
+                MindSpark AI
               </button>
             </div>
           </div>

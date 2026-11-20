@@ -5,7 +5,7 @@ import {
   ListTodo,
   Timer,
   GraduationCap,
-  Bot,
+  BrainCircuit,
   X,
   Moon,
   Sun,
@@ -20,7 +20,7 @@ const NAV_ITEMS: { id: PageId; label: string; icon: typeof LayoutDashboard }[] =
   { id: 'study', label: 'Study Tracker', icon: BookOpenCheck },
   { id: 'timer', label: 'Focus Timer', icon: Timer },
   { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-  { id: 'buddy', label: 'StudyBuddy AI', icon: Bot },
+  { id: 'buddy', label: 'MindSpark AI', icon: BrainCircuit },
 ];
 
 interface SidebarProps {
