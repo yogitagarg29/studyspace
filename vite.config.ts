@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
                     JSON.stringify({
                       error: 'no_api_key',
                       message:
-                        'StudyBuddy AI is not connected yet — GEMINI_API_KEY is missing from environment variables.',
+                        'MindSpark AI is not connected yet — GEMINI_API_KEY is missing from environment variables.',
                     }),
                   );
                   return;
@@ -47,14 +47,14 @@ export default defineConfig(({ mode }) => {
                     );
                     const temp = Math.min(Math.max(Number(temperature) || 0.7, 0.1), 1.0);
 
-                    const systemPrompt = `You are StudyBuddy AI, a friendly academic study assistant for college students.
+                    const systemPrompt = `You are MindSpark AI, a friendly academic study assistant for college students.
 You help ONLY with academics: explaining concepts, study plans, exam preparation, practice questions, note-taking, and study techniques.
 If the user asks about anything unrelated to studying or academics, politely redirect them back to their studies.
 Explain concepts in simple English with clear examples suitable for college students.
 Keep answers focused, structured, and encouraging.`;
 
                     const apiRes = await fetch(
-                      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
+                      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
                       {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -95,7 +95,7 @@ Keep answers focused, structured, and encouraging.`;
                     ) {
                       code = 'rate_limited';
                       friendly =
-                        'StudyBuddy AI rate limit reached. Please wait a minute and try again.';
+                        'MindSpark AI rate limit reached. Please wait a minute and try again.';
                       status = 429;
                     } else if (
                       apiRes.status === 401 ||
@@ -140,12 +140,12 @@ Keep answers focused, structured, and encouraging.`;
                     res.statusCode = status;
                     res.end(JSON.stringify({ error: code, message: friendly }));
                   } catch (err) {
-                    console.error('[StudyBuddy Dev Server] Error:', err);
+                    console.error('[MindSpark Dev Server] Error:', err);
                     res.statusCode = 500;
                     res.end(
                       JSON.stringify({
                         error: 'server_error',
-                        message: 'Error processing StudyBuddy request.',
+                        message: 'Error processing MindSpark request.',
                       }),
                     );
                   }

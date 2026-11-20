@@ -4,11 +4,11 @@ export const config = {
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-const SYSTEM_PROMPT = `You are StudyBuddy AI, a friendly academic study assistant for college students.
+const SYSTEM_PROMPT = `You are MindSpark AI, a friendly academic study assistant for college students.
 You help ONLY with academics: explaining concepts, study plans, exam preparation, practice questions, note-taking, and study techniques.
 If the user asks about anything unrelated to studying or academics, politely redirect them back to their studies.
 Explain concepts in simple English with clear examples suitable for college students.
@@ -114,7 +114,7 @@ export default async function handler(req: Request): Promise<Response> {
         JSON.stringify({
           error: 'no_api_key',
           message:
-            'StudyBuddy AI is not connected yet — GEMINI_API_KEY secret is missing from environment variables.',
+            'MindSpark AI is not connected yet — GEMINI_API_KEY secret is missing from environment variables.',
         }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       );
@@ -151,7 +151,7 @@ export default async function handler(req: Request): Promise<Response> {
       msg.includes('rate')
     ) {
       code = 'rate_limited';
-      friendly = 'StudyBuddy AI rate limit reached. Please wait a minute and try again.';
+      friendly = 'MindSpark AI rate limit reached. Please wait a minute and try again.';
       httpStatus = 429;
     } else if (
       call.status === 401 ||
@@ -203,11 +203,11 @@ export default async function handler(req: Request): Promise<Response> {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (caught) {
-    console.error('[StudyBuddy API] Error:', caught);
+    console.error('[MindSpark API] Error:', caught);
     return new Response(
       JSON.stringify({
         error: 'server_error',
-        message: 'StudyBuddy AI server had an unexpected issue. Please retry.',
+        message: 'MindSpark AI server had an unexpected issue. Please retry.',
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     );

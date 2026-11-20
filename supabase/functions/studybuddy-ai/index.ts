@@ -1,16 +1,16 @@
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-const SYSTEM_PROMPT = `You are StudyBuddy AI, a friendly academic study assistant for college students.
+const SYSTEM_PROMPT = `You are MindSpark AI, a friendly academic study assistant for college students.
 You help ONLY with academics: explaining concepts, study plans, exam preparation, practice questions, note-taking, and study techniques.
 If the user asks about anything unrelated to studying or academics, politely redirect them back to their studies.
 Explain concepts in simple English with clear examples suitable for college students.
 Keep answers focused, structured, and encouraging.`;
 
-const MODEL = "gemini-3.8-flash";
+const MODEL = "gemini-2.5-flash";
 
 interface MessageItem {
   role: "user" | "assistant" | "model";
@@ -90,7 +90,7 @@ Deno.serve(async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: "no_api_key",
-          message: "StudyBuddy AI is not connected yet — GEMINI_API_KEY secret is missing from environment variables.",
+          message: "MindSpark AI is not connected yet — GEMINI_API_KEY secret is missing from environment variables.",
         }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
@@ -124,7 +124,7 @@ Deno.serve(async (req: Request) => {
 
     if (call.status === 429 || statusStr === "RESOURCE_EXHAUSTED" || msg.includes("quota") || msg.includes("rate")) {
       code = "rate_limited";
-      friendly = "StudyBuddy AI rate limit reached. Please wait a minute and try again.";
+      friendly = "MindSpark AI rate limit reached. Please wait a minute and try again.";
       httpStatus = 429;
     } else if (call.status === 401 || reason === "API_KEY_INVALID" || msg.includes("api key not valid")) {
       code = "invalid_key";
@@ -150,7 +150,7 @@ Deno.serve(async (req: Request) => {
       httpStatus = 502;
     }
 
-    console.error(`[StudyBuddy] AI Error: ${code} (${httpStatus}) - ${err?.message || "unknown"}`);
+    console.error(`[MindSpark] AI Error: ${code} (${httpStatus}) - ${err?.message || "unknown"}`);
 
     return new Response(
       JSON.stringify({ error: code, message: friendly }),
@@ -158,9 +158,9 @@ Deno.serve(async (req: Request) => {
     );
   } catch (caught) {
     const errorMsg = caught instanceof Error ? caught.message : String(caught);
-    console.error("[StudyBuddy] Unhandled server error:", errorMsg);
+    console.error("[MindSpark] Unhandled server error:", errorMsg);
     return new Response(
-      JSON.stringify({ error: "server_error", message: "StudyBuddy AI server had an unexpected issue. Please retry." }),
+      JSON.stringify({ error: "server_error", message: "MindSpark AI server had an unexpected issue. Please retry." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
