@@ -75,12 +75,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   network_error: 'Could not reach the server. Please check your connection and try again.',
 };
 
-const ENV = (import.meta as unknown as { env: Record<string, string | undefined> }).env;
-
-// Smart endpoint: Uses Supabase Edge Function if VITE_SUPABASE_URL is configured, otherwise fallback to local/Vercel serverless /api/studybuddy-ai
-const FUNCTION_URL = ENV.VITE_SUPABASE_URL
-  ? `${ENV.VITE_SUPABASE_URL}/functions/v1/studybuddy-ai`
-  : '/api/studybuddy-ai';
+const FUNCTION_URL = '/api/studybuddy-ai';
 
 function getCreativityLabel(temp: number): string {
   if (temp <= 0.3) return 'Precise & Factual';
@@ -167,10 +162,6 @@ export function StudyBuddy() {
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
       };
-      if (ENV.VITE_SUPABASE_URL && ENV.VITE_SUPABASE_ANON_KEY) {
-        headers['Authorization'] = `Bearer ${ENV.VITE_SUPABASE_ANON_KEY}`;
-      }
-
       const res = await fetch(FUNCTION_URL, {
         method: 'POST',
         headers,
